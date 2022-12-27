@@ -1,0 +1,44 @@
+class Subscription:
+  def __init__(self, name, price):
+    self.name = name
+    self.price = price
+
+def find_subscription_combinations(budget):
+  combinations = []
+  subscriptions = retrieve_subscriptions()
+
+  def search(combination, budget):
+    if budget < 0:
+      return
+    if budget == 0:
+      combinations.append(combination)
+      return
+
+    for subscription in subscriptions:
+      search(combination + [subscription], budget - subscription.price)
+
+  search([], budget)
+  return combinations
+
+def retrieve_subscriptions():
+  # Retrieve a list of all available subscriptions and their prices from a database or other source
+  subscriptions = [
+    Subscription("hindu", 50),
+    Subscription("India today", 75),
+    Subscription("Times of India", 40),
+    Subscription("Maharshtra times", 30),
+  ]
+  return subscriptions
+
+budget = 100
+combinations = find_subscription_combinations(budget)
+
+for combination in combinations:
+  print("Combination:")
+  total_cost = 0
+  for subscription in combination:
+    print(f"- {subscription.name}: {subscription.price}")
+    total_cost += subscription.price
+  print(f"Total cost: {total_cost}")
+
+This code defines a Subscription class to represent a newspaper subscription, and a find_subscription_combinations function that uses a depth-first search to generate all possible combinations of subscriptions. The retrieve_subscriptions function can be used to retrieve a list of available subscriptions from a database or other source. 
